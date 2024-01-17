@@ -28,12 +28,13 @@ def create_product(request): # esto es para crear un producto
     else:
         return Response(serializer.data, status=status.HTTP_401_UNAUTHORIZED)
     
-@api_view(['POST'])
+@api_view(['PUT'])
 def edit_product(request, pk): 
     product = Product.objects.get(pk=pk) #primary key
     if request.user.is_staff: 
         serializer = ProductSerializer(product, data=request.data) 
         if serializer.is_valid():
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
     else:

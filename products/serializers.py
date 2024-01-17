@@ -22,7 +22,7 @@ class ProductSerializer (serializers.ModelSerializer):
         fields="__all__"
 
     def get_review(self, obj):
-        reviews = obj.review_set.all()
+        reviews = obj.reviews_set.all()
         serializer = ReviewSerializer(reviews, many=True)
         return serializer.data
     
