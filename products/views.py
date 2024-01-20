@@ -4,12 +4,15 @@ from rest_framework.decorators import api_view
 from rest_framework import  status
 from . models import Product
 from . serializers import ProductSerializer
+from backend.pagination import CustomPagination
 
 @api_view(['GET'])
 def get_products(request):
     products = Product.objects.all() #realiza una consulta a la base de datos para obtener todos los objetos de la clase Product. Esto asume que tienes un modelo llamado Product definido en tu aplicación Django.
-    serializer = ProductSerializer(products, many=True) # crea una instancia del serializador ProductSerializer y pasa los objetos de productos obtenidos de la base de datos (products). many=True indica que estamos tratando con varios objetos y no solo uno.
-    return Response(serializer.data) # La función serializer.data contiene los datos serializados en un formato que puede ser enviado como respuesta.
+    pagination = CustomPagination()
+    paginated_products = pagination.paginate_queryset(products, request)
+    serializer = ProductSerializer(paginated_products, many=True) # crea una instancia del serializador ProductSerializer y pasa los objetos de productos obtenidos de la base de datos (products). many=True indica que estamos tratando con varios objetos y no solo uno.
+    return pagination.get_paginated_response(serializer.data) # La función serializer.data contiene los datos serializados en un formato que puede ser enviado como respuesta.
 
 @api_view(['GET'])
 def get_product(request, name): # esto es para obtener UN solo producto a traves del nombre

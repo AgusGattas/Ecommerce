@@ -1,6 +1,7 @@
 import axios, { AxiosRequestHeaders } from "axios";
 import { useAuthStore } from "../store/auth";
 import jwt_decode from "jwt-decode";
+import { Token } from "../Interfaces";
 
 
 
@@ -15,7 +16,7 @@ export const axi = axios.create({
     baseURL
 })
 
-/*la idea es usar este "authAxios en cada request que se necesite autenticacion"*/
+/*la idea es usar este "authAxios" en cada request que se necesite autenticacion*/
 export const authAxios = axios.create({
     baseURL,
     withCredentials: true
@@ -31,10 +32,7 @@ authAxios.interceptors.request.use(async (config) => {
         Authorization: `Bearer ${token}`,
     } as AxiosRequestHeaders;
     
-    type Token = {
-        exp:number
-    }
-
+    
     const tokenDecoded: Token = jwt_decode(token)
 
     const expiration = new Date(tokenDecoded.exp * 1000);
