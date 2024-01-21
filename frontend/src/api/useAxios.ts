@@ -12,6 +12,7 @@ function logout() {
 
 const baseURL = "http://127.0.0.1:8000"
 
+/*la idea es usar este "axi" en cada request que NO se necesite autenticacion*/
 export const axi = axios.create({
     baseURL
 })

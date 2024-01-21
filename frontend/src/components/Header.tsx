@@ -11,6 +11,7 @@ import { useAuthStore } from "../store/auth";
 import Logo from '../assets/logo.png'
 import jwt_decode from "jwt-decode"
 import { useCartStore } from "../store/cart"
+import { Token } from "../Interfaces";
 
 
 const Header = () => {
@@ -20,15 +21,8 @@ const Header = () => {
   const { isAuth } = useAuthStore()
     const cart = useCartStore(state => state.cart);
 
- 
-
-  type Token = {
-    is_staff: boolean
-  }
-
   if(isAuth) {
     const tokenDecoded : Token = jwt_decode(token)
-    console.log(tokenDecoded)
     var is_admin = (tokenDecoded.is_staff);  
   } 
 
@@ -95,14 +89,14 @@ const Header = () => {
                     ) : (
                         <>
                           <Link
-                            to={'/'}
+                            to={'/login'}
                             className='bg-slate-400 p-2 px-4 rounded-lg text-black dark:bg-gray-900 dark:text-white' 
                           >
                             Log in
                           </Link>
 
                           <Link
-                            to={'/'}
+                            to={'/register'}
                             className='text-black p-2 px-4 rounded-lg hover:bg-slate-400 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white'
                           >
                             Sign up
@@ -225,9 +219,7 @@ const Header = () => {
             </div>
 
             <div className="space-y-1 px-2 pb-3 pt-2">
-              {/*       item.current ? 'bg-slate-400 text-black dark:bg-gray-900 dark:text-white' : */}
-              {/*         'text-black hover:bg-slate-400 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white', */}
-              {/* 'block rounded-md px-3 py-2 text-base font-medium' */}
+              
               {isAuth ? (
                 <div className="w-full grid grid-cols-1">
 <Link
@@ -248,14 +240,14 @@ const Header = () => {
               ) : (
                   <div className="w-full grid grid-cols-1">
                     <Link
-                      to={'/'}
+                      to={'/login'}
                       className='bg-slate-400 p-2 px-4 rounded-lg text-black dark:bg-gray-900 dark:text-white' 
                     >
                       Log in
                     </Link>
 
                     <Link
-                      to={'/'}
+                      to={'/register'}
                       className='text-black p-2 px-4 rounded-lg hover:bg-slate-400 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white'
                     >
 Sign up
