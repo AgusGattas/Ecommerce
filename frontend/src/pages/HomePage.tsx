@@ -1,4 +1,4 @@
-import { get_products } from "../api/products";
+import { getProducts } from "../api/products";
 import ProductCard from "../components/ProductCard";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
@@ -10,13 +10,20 @@ import toast from "react-hot-toast";
 
 
 const HomePage = () => {
-
     const { ref, inView } = useInView();
-    
-    const {data, isLoading, error, isFetchingNextPage, fetchNextPage, hasNextPage} = 
-    useInfiniteQuery(["products"], get_products, {
+
+    const {
+        data,
+        isLoading,
+        error,
+        isFetchingNextPage,
+        fetchNextPage,
+        hasNextPage,
+    } = useInfiniteQuery(["products"], getProducts, {
         getNextPageParam: (page: any) => page.meta.next,
-    }); 
+    });
+
+    console.log(data);
 
     useEffect(() => {
         if (inView) {
@@ -24,8 +31,8 @@ const HomePage = () => {
         }
     }, [inView]);
 
-    if (isLoading) return <p>Loading...</p>
-    if (error instanceof Error) return <>{toast.error(error.message)}</>
+    if (isLoading) return <p>Loading...</p>;
+    if (error instanceof Error) return <>{toast.error(error.message)}</>;
 
     return (
         <>
@@ -40,7 +47,7 @@ const HomePage = () => {
                                 <ProductCard
                                     key={product.id}
                                     product={product}
-                                    
+                                    page={"home"}
                                 />
                             ))}
                         </div>
@@ -66,8 +73,5 @@ const HomePage = () => {
         </>
     );
 };
-    
 
-
-
-export default HomePage
+export default HomePage;

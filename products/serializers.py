@@ -1,6 +1,6 @@
 
 from rest_framework import serializers
-from . models import Product, Reviews
+from . models import Product, Review
 
 
 class ReviewSerializer (serializers.ModelSerializer):
@@ -8,7 +8,7 @@ class ReviewSerializer (serializers.ModelSerializer):
     user= serializers.ReadOnlyField(source='user.email')
 
     class Meta:
-        model= Reviews
+        model= Review
         fields="__all__"
 
     def get_avatar(self, obj):
@@ -21,8 +21,8 @@ class ProductSerializer (serializers.ModelSerializer):
         model= Product
         fields="__all__"
 
-    def get_review(self, obj):
-        reviews = obj.reviews_set.all()
+    def get_reviews(self, obj):
+        reviews = obj.review_set.all()
         serializer = ReviewSerializer(reviews, many=True)
         return serializer.data
     
