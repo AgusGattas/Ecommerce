@@ -11,7 +11,7 @@ import { useEffect } from "react";
 import { Product } from "../Interfaces";
 
 
-//esta constante Products la usamos despues en AdminPage
+//esta constante Products la usamos despues en AdminPage por ejemplo
 const Products = () => {
   const { ref, inView } = useInView();
 
@@ -63,7 +63,11 @@ const Products = () => {
             <th scope="col" className="px-4 py-3">Price</th>
             <th scope="col" className="px-4 py-3">Stock</th>
 
-            <th scope="col" className="px-4 py-3 flex items-center justify-center gap-4">Actions</th>
+            <th scope="col" className="px-4 py-3 flex items-center justify-center gap-4">Actions
+            <Link to="add">
+                      <AiFillPlusSquare size={22} className="text-green-300 cursor-pointer " />
+            </Link></th>
+            
           </tr>
         </thead>
 
@@ -88,12 +92,10 @@ const Products = () => {
                       }
                       size={22}
                       className="text-red-300 cursor-pointer" />
-                    <Link to="edit">
+                    <Link to={`edit/${product.id}`}>
                       <AiFillEdit size={22} className="text-wite-300 cursor-pointer" />
                     </Link>
-                    <Link to="add">
-                      <AiFillPlusSquare size={22} className="text-green-300 cursor-pointer" />
-                    </Link>
+                  
                   </td>
                 </tr>
 

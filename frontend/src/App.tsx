@@ -6,6 +6,8 @@ import RegisterPage from "./pages/RegisterPages"
 import AdminPage from "./pages/AdminPage"
 import AddProductPage from "./pages/AddProductPage"
 import { AdminPrivateRout, PrivateRout } from "./components/PrivateRoute"
+import EditProductPage from "./pages/EditProductPage"
+
 
 
 function App() {
@@ -27,6 +29,7 @@ function App() {
             <Route path="admin" element= {<AdminPrivateRout/>}>
               <Route index element= {<AdminPage/>}/>
               <Route path="add" element= {<AddProductPage/>}/>
+              <Route path="edit/:id" element= {<EditProductPage/>}/>
             </Route>
 
           </Route>

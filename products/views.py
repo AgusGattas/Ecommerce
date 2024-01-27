@@ -20,6 +20,12 @@ def get_product(request, name): # esto es para obtener UN solo producto a traves
     serializer = ProductSerializer(products, many=False) 
     return Response(serializer.data)
 
+@api_view(['GET'])
+def get_product_admin(request, id): # esto es para obtener UN solo producto a traves del ID
+    products = Product.objects.get(id=id) 
+    serializer = ProductSerializer(products, many=False) 
+    return Response(serializer.data)
+
 @api_view(['POST'])
 def create_product(request): # esto es para crear un producto
     if request.user.is_staff: #esto s para que el usiario administrador sea el unico que puede crear productos
@@ -32,16 +38,15 @@ def create_product(request): # esto es para crear un producto
         return Response(serializer.data, status=status.HTTP_401_UNAUTHORIZED)
     
 @api_view(['PUT'])
-def edit_product(request, pk): 
-    product = Product.objects.get(pk=pk) #primary key
-    if request.user.is_staff: 
-        serializer = ProductSerializer(product, data=request.data) 
+def edit_product(request, pk):
+    product = Product.objects.get(pk=pk)
+    if request.user.is_staff:
+        serializer = ProductSerializer(product, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
-    else:
-        return Response(serializer.data, status=status.HTTP_401_UNAUTHORIZED)
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return Response(status=status.HTTP_401_UNAUTHORIZED)
 
 @api_view(['DELETE'])
 def delete_product(request, pk): 
