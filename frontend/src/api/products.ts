@@ -1,9 +1,14 @@
 import { Product } from "../Interfaces";
 import { authAxios, axi } from "./useAxios";
 
+
 export const getProducts = async  ({ pageParam = 1}) =>{
     const response = await axi.get(`/products/?page=${pageParam}&pages=9`)
     return response.data
+}
+
+export const deleteProduct = async (id: string) => {
+  await authAxios.delete(`products/delete/${id}/`)
 }
 
 //esta funcion la creamos para crear un nuevo producto. Lo aplicamos en AddProductPage

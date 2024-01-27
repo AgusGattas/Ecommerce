@@ -1,6 +1,8 @@
 import React, { useState, ChangeEvent } from 'react';
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postProduct } from '../api/products';
+import { Link, useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 
 const AddProductPage = () => {
@@ -14,17 +16,21 @@ const AddProductPage = () => {
     const inputRef = React.useRef<HTMLInputElement>(null);
     const [isHovered, setIsHovered] = useState(false); //estado de "hover" (cuando el cursor está sobre un elemento).
 
+    const navigate = useNavigate()
     const queryClient = useQueryClient();// se utilizará para invalidar la caché de consultas cuando se complete con éxito la mutación.
 
     const addProdMutation = useMutation({
-mutationFn: postProduct,
-onSuccess: () => {
-queryClient.invalidateQueries({ queryKey: ["products"] });
-},
-onError: (error) => {
-console.error(error);
-},
-});
+        mutationFn: postProduct,
+        onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["products"] });
+        toast.success("Product Created!")
+        navigate('/admin')
+        },
+        onError: () => {
+            toast.success("Error!");
+            navigate('/admin')
+        },
+        });
 
 const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -101,8 +107,8 @@ if(addProdMutation.isLoading) return <p>Loader...</p>
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                         Add Product
                     </h3>
-                    <button
-                        type="button"
+                    <Link
+                        to="/admin"
                         className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
                         data-modal-toggle="defaultModal"
                     >
@@ -120,7 +126,7 @@ if(addProdMutation.isLoading) return <p>Loader...</p>
                             ></path>
                         </svg>
                         <span className="sr-only">Close modal</span>
-                    </button>
+                    </Link>
                 </div>
                 <form onSubmit={handleSubmit}>
                     <div className="grid gap-4 mb-4 sm:grid-cols-2">

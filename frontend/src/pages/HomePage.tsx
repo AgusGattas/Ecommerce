@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { Product } from "../Interfaces";
 
 import toast from "react-hot-toast";
+import Loader from "../components/Loader";
 
 
 
@@ -31,7 +32,7 @@ const HomePage = () => {
         }
     }, [inView]);
 
-    if (isLoading) return <p>Loading...</p>;
+    if (isLoading) return <Loader/>;
     if (error instanceof Error) return <>{toast.error(error.message)}</>;
 
     return (
@@ -64,7 +65,7 @@ const HomePage = () => {
                         hasNextPage && (
                             <div ref={ref}>
                                 {isLoading || isFetchingNextPage ? (
-                                    <p>Loading...</p>
+                                    <Loader/>
                                 ) : null}
                             </div>
                         )}

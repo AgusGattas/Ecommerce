@@ -5,6 +5,7 @@ import LoginPage from "./pages/LoginPage"
 import RegisterPage from "./pages/RegisterPages"
 import AdminPage from "./pages/AdminPage"
 import AddProductPage from "./pages/AddProductPage"
+import { AdminPrivateRout, PrivateRout } from "./components/PrivateRoute"
 
 
 function App() {
@@ -13,12 +14,21 @@ function App() {
     <BrowserRouter>
         <Routes>
           <Route path="/" element= {<Layout1/>}>
+
             <Route index element= {<HomePage/>}/>
             <Route path="register" element= {<RegisterPage/>}/>
             <Route path="login" element= {<LoginPage/>}/>
             <Route path="home" element= {<HomePage/>}/>
-            <Route path="admin" element= {<AdminPage/>}/>
-            <Route path="add" element= {<AddProductPage/>}/>
+            
+            <Route element= {<PrivateRout/>}>
+  
+            </Route>
+
+            <Route path="admin" element= {<AdminPrivateRout/>}>
+              <Route index element= {<AdminPage/>}/>
+              <Route path="add" element= {<AddProductPage/>}/>
+            </Route>
+
           </Route>
         </Routes>
     </BrowserRouter>
