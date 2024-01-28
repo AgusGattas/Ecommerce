@@ -16,5 +16,6 @@ export interface Product {
     
     exp: number;
     is_staff : boolean;
+    avatar : string
     
 };

@@ -36,6 +36,14 @@ export const postProduct = async (data: Product) => { //este Product es el defin
     return response.data
   }
 
+  export const getProduct = async (name: string | undefined) => {
+    if (!name) {
+      throw new Error('No product found with that name.'); 
+    }
+    const res = await axi.get(`products/get/${name}`)
+    return res.data
+  }
+
   //esta funcion la creamos para EDITAR un producto. Lo aplicamos en EditProductPage
 export const editProduct = async (data: Product) => { //este Product es el definido en Interfaces
   const formData = new FormData();//usamos FormData para poder cargarle la imagen tambien 
