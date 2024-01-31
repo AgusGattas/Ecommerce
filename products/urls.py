@@ -10,7 +10,7 @@ urlpatterns = [
     path('post/', views.create_product),
     path('edit/<int:pk>/', views.edit_product),
     path('delete/<int:pk>/', views.delete_product),
-    
+    path('search/', views.search),
 ]
 
 

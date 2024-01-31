@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 // import cart store
 import { useCartStore } from "../store/cart"
 
+
 interface Props {
             product: Product
              page: string

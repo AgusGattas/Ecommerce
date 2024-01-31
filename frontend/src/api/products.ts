@@ -58,4 +58,8 @@ export const editProduct = async (data: Product) => { //este Product es el defin
   await authAxios.put(`products/edit/${data.id}/`, formData);//aca con metodo PUT editamos el producto al backend a la url 'products/edit/'
 }
 
+export const search_prod = async (query: string) => {
+  const response = await authAxios.get(`/products/search/?query=${query}`)
+  return response.data
+}
   
