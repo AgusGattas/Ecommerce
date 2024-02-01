@@ -7,12 +7,14 @@ import { Product } from "../Interfaces";
 
 import toast from "react-hot-toast";
 import Loader from "../components/Loader";
-
+import SearchResult from "./SearchResults";
+import { useSearchStore } from "../store/search";
 
 
 
 const HomePage = () => {
     const { ref, inView } = useInView();
+    const searchTerm = useSearchStore((state)=>state.searchTerm)
 
     const {
         data,
@@ -35,6 +37,7 @@ const HomePage = () => {
 
     if (isLoading) return <Loader/>;
     if (error instanceof Error) return <>{toast.error(error.message)}</>;
+    if (searchTerm) return <SearchResult/>
 
     return (
         <>
