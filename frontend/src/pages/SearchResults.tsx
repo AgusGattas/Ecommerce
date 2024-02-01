@@ -19,12 +19,17 @@ const SearchResult = () => {
         }
             })
     return (
-        <>
+        <div className="flex justify-center">
+                        <div
+                            
+                            className="p-8 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-16"
+                        >
             {data && data.products.map((product : Product) => (
                 <ProductCard product={product} page={""}/>
             ))}
         
-        </>
+        </div>
+        </div>
         
     )
     

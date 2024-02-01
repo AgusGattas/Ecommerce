@@ -90,7 +90,7 @@ const Header = () => {
                         </Link>
 
                         <Link
-                          to={'/'}
+                          to={'/cate'}
                           className='text-black p-2 px-4 rounded-lg hover:bg-slate-400 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white'
                         >
                           Categories
@@ -233,7 +233,7 @@ const Header = () => {
               
               {isAuth ? (
                 <div className="w-full grid grid-cols-1">
-<Link
+                  <Link
                     to={'/'}
                     className='bg-slate-400 p-2 px-4 rounded-lg text-black dark:bg-gray-900 dark:text-white' 
                   >
@@ -241,7 +241,7 @@ const Header = () => {
                   </Link>
 
                   <Link
-                    to={'/'}
+                    to={'/cate'}
                     className='text-black p-2 px-4 rounded-lg hover:bg-slate-400 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white'
                   >
                     Categories

@@ -10,6 +10,7 @@ import Loader from "../components/Loader";
 
 
 
+
 const HomePage = () => {
     const { ref, inView } = useInView();
 

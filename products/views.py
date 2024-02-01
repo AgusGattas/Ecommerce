@@ -67,3 +67,10 @@ def search(request):
     prod = Product.objects.filter(name__icontains=query)#Utiliza Django ORM para realizar una consulta a la base de datos. Filtra los objetos de la clase Product cuyos nombres contienen (sin distinguir mayúsculas y minúsculas) el valor de query.
     serializer = ProductSerializer(prod, many=True)# Los serializadores en Django REST Framework convierten objetos complejos (como modelos de Django) en tipos de datos que pueden ser fácilmente convertidos a JSON.
     return Response({'products': serializer.data})
+
+# esta funcion la creamos para poder traer los productos SEGUN la categoria 
+@api_view(['GET'])
+def get_products_by_category(request, category):
+    products = Product.objects.filter(category=category)
+    serializer = ProductSerializer(products, many=True)
+    return Response(serializer.data)

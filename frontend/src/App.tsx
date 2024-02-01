@@ -8,6 +8,8 @@ import AddProductPage from "./pages/AddProductPage"
 import { AdminPrivateRout, PrivateRout } from "./components/PrivateRoute"
 import EditProductPage from "./pages/EditProductPage"
 import SoloProduct from "./pages/SoloProduct"
+import CatePage from "./pages/CatePage"
+import SearchByCate from "./pages/SearchByCate"
 
 
 
@@ -23,7 +25,8 @@ function App() {
             <Route path="login" element= {<LoginPage/>}/>
             <Route path="home" element= {<HomePage/>}/>
             <Route path="product/:name" element= {<SoloProduct/>}/>
-            
+            <Route path="cate" element= {<CatePage/>}/>
+            <Route path="cate/:cate" element={<SearchByCate />} />
             <Route element= {<PrivateRout/>}>
   
             </Route>

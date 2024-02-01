@@ -45,7 +45,7 @@ export const postProduct = async (data: Product) => { //este Product es el defin
   }
 
   //esta funcion la creamos para EDITAR un producto. Lo aplicamos en EditProductPage
-export const editProduct = async (data: Product) => { //este Product es el definido en Interfaces
+  export const editProduct = async (data: Product) => { //este Product es el definido en Interfaces
   const formData = new FormData();//usamos FormData para poder cargarle la imagen tambien 
   formData.append("name", data.name);
   formData.append("description", data.description);
@@ -58,8 +58,15 @@ export const editProduct = async (data: Product) => { //este Product es el defin
   await authAxios.put(`products/edit/${data.id}/`, formData);//aca con metodo PUT editamos el producto al backend a la url 'products/edit/'
 }
 
+  //esta funcion la creamos para Buscar un producto por la barra buscadora. Lo aplicamos en SearchResults
 export const search_prod = async (query: string) => {
   const response = await authAxios.get(`/products/search/?query=${query}`)
+  return response.data
+}
+
+//esta funcion la creamos para LISTAR los productos de cada categoria. Lo aplicamos en CatePage
+export const cate_api = async (category: string) => {
+  const response = await authAxios.get(`/products/cate/${category}/`)
   return response.data
 }
   
