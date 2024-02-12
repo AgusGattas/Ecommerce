@@ -37,7 +37,7 @@ const HomePage = () => {
 
     if (isLoading) return <Loader/>;
     if (error instanceof Error) return <>{toast.error(error.message)}</>;
-    if (searchTerm) return <SearchResult/>
+    if (searchTerm) return <SearchResult/> //esto lo hacemos para cuando queremos 
 
     return (
         <>

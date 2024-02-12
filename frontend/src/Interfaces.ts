@@ -11,6 +11,13 @@ export interface Product {
     quantity?: number
     num_reviews?: number
   }
+  export interface User {
+    id: number
+    name: string
+    email: string
+    lastname: string
+    
+  }
 
   export interface Token {
     

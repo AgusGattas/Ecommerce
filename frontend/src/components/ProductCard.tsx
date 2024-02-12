@@ -18,9 +18,10 @@ const ProductCard = ({ product, page }: Props) => {
     <div>
             <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <Link to={`/product/${product.name}`}>
-            <img className="rounded-t-lg" 
+            <img className="rounded-t-lg " 
             src={`${import.meta.env.VITE_BACKEND_URL}${product.image}`}
-             alt="" />
+             alt=""
+             style={{ width: '300px', height: '200px' }} />
             </Link>
             <div className="p-5 ">
             <Link to={`/product/${product.name}`}>
@@ -72,7 +73,7 @@ const ProductCard = ({ product, page }: Props) => {
         </div>
 
         </div>
-        </div>
+    </div>
 
         )
 }
