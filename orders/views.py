@@ -67,7 +67,7 @@ def create_order(request):
         serializer = OrderSerializer(order, many=False)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     else:
-        return Response({'mensaje': sum_of_prices}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'mensaje': 'El precio total no coincide con la suma de los precios individuales de la orden'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 #para obtener una sola orden 
