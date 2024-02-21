@@ -10,6 +10,7 @@ import EditProductPage from "./pages/EditProductPage"
 import SoloProduct from "./pages/SoloProduct"
 import CatePage from "./pages/CatePage"
 import SearchByCate from "./pages/SearchByCate"
+import CartPage from "./pages/CartPage"
 
 
 
@@ -20,14 +21,16 @@ function App() {
         <Routes>
           <Route path="/" element= {<Layout1/>}>
 
-            <Route index element= {<HomePage/>}/>
-            <Route path="register" element= {<RegisterPage/>}/>
-            <Route path="login" element= {<LoginPage/>}/>
-            <Route path="home" element= {<HomePage/>}/>
-            <Route path="product/:name" element= {<SoloProduct/>}/>
-            <Route path="cate" element= {<CatePage/>}/>
-            <Route path="cate/:cate" element={<SearchByCate />} />
+              <Route index element= {<HomePage/>}/>
+              <Route path="register" element= {<RegisterPage/>}/>
+              <Route path="login" element= {<LoginPage/>}/>
+              <Route path="home" element= {<HomePage/>}/>
+              <Route path="product/:name" element= {<SoloProduct/>}/>
+              <Route path="cate" element= {<CatePage/>}/>
+              <Route path="cate/:cate" element={<SearchByCate />} />
+
             <Route element= {<PrivateRout/>}>
+              <Route path="cart" element={<CartPage />} />
   
             </Route>
 

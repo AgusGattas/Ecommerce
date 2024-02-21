@@ -26,3 +26,11 @@ export interface Product {
     avatar : string
     
 };
+
+export interface Order{
+  total_price: number;
+  adress : string;
+  city : string;
+  postal_code : string;
+  orderItems : Product [];
+}
