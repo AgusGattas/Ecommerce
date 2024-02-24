@@ -37,7 +37,7 @@ def create_order(request):
     
 
     #calcular la suma de los precios de los productos 
-    sum_of_prices = sum(item['price'] for item in orderItems)
+    sum_of_prices = sum(int(float(item['price'])) * item['quantity'] for item in orderItems)
 
     if total_price == sum_of_prices:
         order = Order.objects.create(
@@ -46,10 +46,10 @@ def create_order(request):
         )
 
         ShippingAddress.objects.create(
-            order=order,
-            address=data['address'],
+            order=order,         
             city=data['city'],
             postal_code=data['postal_code'],
+            address=data['address'],
         )
 
         for i in orderItems:

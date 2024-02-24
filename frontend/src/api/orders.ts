@@ -1,9 +1,9 @@
 
-import { authAxios, axi } from "./useAxios";
+import { authAxios } from "./useAxios";
 import { Order } from "../Interfaces";
 
 
 
-export const createOrder = async (data: Order) => {
-    await authAxios.post('/orders/crate/', data)
+export const create_order = async (data: Order) => {
+    await authAxios.post('/orders/create/', data)
 }

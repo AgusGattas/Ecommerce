@@ -29,8 +29,8 @@ export interface Product {
 
 export interface Order{
   total_price: number;
-  adress : string;
+  address : string;
   city : string;
   postal_code : string;
-  orderItems : Product [];
+  order_items : Product [];
 }
