@@ -61,12 +61,10 @@ const Users = ({results}: Props) => {
 
 
                 {results && results.users.length > 0 ? (
-
-                <>
+                  
+                <tbody>
                   {results && 
                       results.users.map((user: User) => (
-
-                        <tbody>
                     
                             <tr className="border-b dark:border-gray-700">
                                 <th
@@ -90,15 +88,14 @@ const Users = ({results}: Props) => {
                                     />
                                 </td>
                             </tr>
-                            </tbody>
+                            
                         ))}
-                </>
+                </tbody>
 
                 ) : (
-
                 <tbody>
                     {data && 
-                    data.map((user: User) => (
+                        data.map((user: User) => (
                             <tr className="border-b dark:border-gray-700">
                                 <th
                                     scope="row"

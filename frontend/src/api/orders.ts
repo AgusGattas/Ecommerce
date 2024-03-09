@@ -3,7 +3,7 @@ import { authAxios } from "./useAxios";
 import { Order } from "../Interfaces";
 
 export const edit_order = async (id: number) => {
-    await authAxios.put(`/orders/deliver/${id}`)
+    await authAxios.put(`/orders/deliver/${id}/`)
    
 }
 
