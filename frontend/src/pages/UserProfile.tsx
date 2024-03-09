@@ -2,11 +2,14 @@ import { useAuthStore } from "../store/auth";
 import { Token } from "../Interfaces";
 import jwt_decode from "jwt-decode";
 import React, { useState, ChangeEvent, useEffect } from "react";
-import { useMutation, useQueryClient} from "@tanstack/react-query";
-import { edit_user,} from "../api/users";
+import { useMutation, useQueryClient, useQuery} from "@tanstack/react-query";
+import { edit_user, get_solo_user,} from "../api/users";
 import { toast } from "react-hot-toast";
+import { my_orders } from "../api/orders";
 
 import { Card} from 'flowbite-react';
+import Loader from "../components/Loader";
+import { Link } from "react-router-dom";
 
 
 const UserProfile = () => {
@@ -16,18 +19,21 @@ const UserProfile = () => {
     const [show, setShow] = useState(true)
 
    
-    const avatar = tokenDecoded.avatar;
-    const email = tokenDecoded.email;
-    const name = tokenDecoded.name;
-    const last_name = tokenDecoded.last_name;
+    
+    const id = tokenDecoded.user_id;
+
+    const { data:user} = useQuery({
+        queryKey: ['users', id],
+        queryFn: () => get_solo_user(id)
+    })
 
     useEffect(() => {
-        if (token) {
-            setStateName(name);
-            setStateLast(last_name);
-            setImage(avatar);
+        if (user) {
+            setStateName(user.name);
+            setStateLast(user.last_name);
+            setImage(user.avatar);
         }
-    }, [token]);
+    }, [user]);
 
     const [stateName, setStateName] = useState<string>('');
     const [stateLast, setStateLast] = useState<string>('');
@@ -35,6 +41,13 @@ const UserProfile = () => {
     const [filePreview, setFilePreview] = useState<string>('');
     const inputRef = React.useRef<HTMLInputElement>(null);
     const [isHovered, setIsHovered] = useState(false); //estado de "hover" (cuando el cursor está sobre un elemento).
+    
+    
+
+    const { data, error, isLoading } = useQuery({
+        queryKey: ['orders'],
+        queryFn: my_orders
+    })
 
     
     const queryClient = useQueryClient();// se utilizará para invalidar la caché de consultas cuando se complete con éxito la mutación.
@@ -59,7 +72,7 @@ const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         name: stateName,
         last_name:stateLast,
         avatar: image,
-        email : email,
+        email : user.email,
         
     });
 
@@ -92,31 +105,70 @@ const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         setIsHovered(false);
     };
 
-
-    
+    if(error instanceof Error) return <>{toast.error(error.message)}</>
+    if (isLoading) return <Loader />
 
     return (
-    <div className="flex justify-center pt-[100px]">
-    <Card className="max-w-sm">
-      <div className="flex justify-end px-4 pt-4"></div>
-      {show ? (<div className="flex flex-col items-center pb-10">
-        <img
-          className="w-24 h-24 mb-3 mt-3 rounded-full shadow-lg"
-          src={`${import.meta.env.VITE_BACKEND_URL}${avatar}`}
-          alt= "User Image"
-        />
-        <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">{name} {" "} {last_name}</h5>
-        <span className="text-sm text-gray-500 dark:text-gray-400">{email}</span>
-        <div className="mt-4 flex space-x-3 lg:mt-6">
-          
-          <button
-            onClick={()=> setShow(false)}
-            className="inline-flex items-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-center text-sm font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
-          >
-            Edit profile
-          </button>
-        </div>
-      </div>
+        <div className="flex justify-center pt-[100px]">
+        <Card className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            {show ? (
+            <>
+                <div className="flex flex-col items-center pb-10">
+
+                    
+                    <img
+                        className="w-24 h-24 mb-3 mt-3 rounded-full shadow-lg"
+
+                        src={`${import.meta.env.VITE_BACKEND_URL}${user.avatar}`}
+                        alt="User image"
+                    />
+                        
+                    <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
+                        {user.email}
+                    </h5>
+                    <span className="text-sm text-gray-500 dark:text-gray-400">
+                        {user.name} {user.last_name}
+                    </span>
+                    <div className="flex mt-4 space-x-3 md:mt-6">
+                        <button
+                            onClick={() => setShow(false)}
+                            className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700"
+                        >
+                            Edit profile
+                        </button>
+                    </div>
+                </div>
+
+<div className="overflow-x-auto">
+  <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <tr>
+        <th scope="col" className="px-4 py-3">Order ID</th>
+        <th scope="col" className="px-4 py-3">See</th>
+      </tr>
+    </thead>
+
+    <tbody>
+    {data && data.map((order: any) => (
+            <tr className="border-b dark:border-gray-700">
+              <th scope="row" className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                {order.id}
+              </th>
+              <td className="px-4 py-3">
+                <Link 
+                to={`/order/${order.id}/`}
+                className="p-2 cursor-pointer rounded-lg bg-gray-900 hover:bg-gray-700">
+                    See
+                </Link>
+              </td>
+            </tr>
+            ))}
+
+    </tbody>
+  </table>
+</div>
+
+</>
 
       ) : (
     <div className="p-11">
@@ -220,7 +272,7 @@ const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
                                         </button>
                                         <img
                                             className="h-48 w-96"
-                                            src={filePreview || `${import.meta.env.VITE_BACKEND_URL}${avatar}`}
+                                            src={filePreview || `${import.meta.env.VITE_BACKEND_URL}${user.avatar}`}
                                             alt="Imagen seleccionada"
                                         />
                                     </div>

@@ -12,6 +12,7 @@ import CatePage from "./pages/CatePage"
 import SearchByCate from "./pages/SearchByCate"
 import CartPage from "./pages/CartPage"
 import UserProfile from "./pages/UserProfile"
+import SoloOrder from "./pages/SoloOrders"
 
 
 
@@ -33,7 +34,7 @@ function App() {
             <Route element= {<PrivateRout/>}>
               <Route path="cart" element={<CartPage />} />
               <Route path="profile" element={<UserProfile />} />
-
+              <Route path="order/:id" element={<SoloOrder />} />
   
             </Route>
 

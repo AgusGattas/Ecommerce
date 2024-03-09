@@ -1,41 +1,50 @@
-import Users from "../components/Users"
-import Orders from "../components/Orders"
-import Products from "../components/Products"
-import { useState } from "react"
-import { search_prod } from "../api/products"
-import { useQuery } from "@tanstack/react-query"
-import { search_users } from "../api/users"
-
-
+import { useState } from "react";
+import { search_prod } from "../api/products";
+import { search_users } from "../api/users";
+import { useQuery } from "@tanstack/react-query";
+import Products from "../components/Products";
+import Orders from "../components/Orders";
+import Users from "../components/Users";
+import { search_order } from "../api/orders";
 
 const AdminPage = () => {
 
-  const [show, setShow] = useState(0) //este setShow va a cambiar de estado segun el boton que se haga click, puede ser 0 (orders), 1(product), 2(users)
-  
-  const [search, setSearch] = useState("")
-  
-  const {data} = useQuery({
-    queryKey: ['products', search],
-    queryFn: ()=> {
-        if (search && show ===0 ){
-            return search_prod(search)
-        }
-        return {products : []}
-    }
-})
+    const [show, setShow] = useState(0);
+    const [search, setSearch] = useState("");
 
-const {data:users} = useQuery({
-    queryKey: ['users', search],
-    queryFn: ()=> {
-        if (search && show === 2 ){
-            return search_users(search)
-        }
-        return {users : []}
-    }
-})
+    const { data } = useQuery({
+        queryKey: ["products", search],
+        queryFn: () => {
+            if (search && show === 0) {
+                return search_prod(search);
+            }
+            return { products: [] };
+        },
+    });
 
-  return (
-<section className="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
+    const { data: users } = useQuery({
+        queryKey: ["users", search],
+        queryFn: () => {
+            if (search && show === 2) {
+                return search_users(search);
+            }
+            return { users: [] };
+        },
+    });
+
+    const { data: orders } = useQuery({
+        queryKey: ["orders", search],
+        queryFn: () => {
+            if (search && show === 1) {
+                return search_order(search);
+            }
+            return { orders: [] };
+        },
+    });
+
+
+    return (
+        <section className="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
             <div className="mx-auto max-w-screen-xl px-4 lg:px-12">
                 <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
                     <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
@@ -98,13 +107,13 @@ const {data:users} = useQuery({
                     </div>
 
                     {show === 0 && <Products results={data}/>}
-                    {show === 1 && <Orders />}
+                    {show === 1 && <Orders results={orders} />}
                     {show === 2 && <Users results={users} />}
 
                 </div>
             </div>
         </section>
-  )
-}
+    );
+};
 
-export default AdminPage
+export default AdminPage;
