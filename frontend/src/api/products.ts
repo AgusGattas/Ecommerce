@@ -69,4 +69,10 @@ export const cate_api = async (category: string) => {
   const response = await authAxios.get(`/products/cate/${category}/`)
   return response.data
 }
+
+export const create_review = async (description: string, rating: number, productId: number) => {
+  await authAxios.post(`/products/review/${productId}/`, {description, rating})
+};
+
+
   

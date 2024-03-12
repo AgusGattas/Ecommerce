@@ -13,6 +13,9 @@ urlpatterns = [
     path('search/', views.search),
     path('cate/<str:category>/', views.get_products_by_category),
 
+    path('review/<int:pk>/', views.create_review),
+
+
 ]
 
 

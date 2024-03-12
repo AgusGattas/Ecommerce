@@ -1,9 +1,11 @@
 
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework import  status
+from rest_framework.permissions import  IsAuthenticated
+
 from . models import Product
-from . serializers import ProductSerializer
+from . serializers import ProductSerializer, ReviewSerializer
 from backend.pagination import CustomPagination
 
 @api_view(['GET'])
@@ -74,3 +76,16 @@ def get_products_by_category(request, category):
     products = Product.objects.filter(category=category)
     serializer = ProductSerializer(products, many=True)
     return Response(serializer.data)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_review(request, pk):
+    serializer = ReviewSerializer(data=request.data)
+    product = Product.objects.get(pk=pk)
+    if serializer.is_valid():
+        serializer.save(user=request.user, product=product)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    else:
+        return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+
+

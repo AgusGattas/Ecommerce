@@ -3,6 +3,7 @@ import Loader from "../components/Loader";
 import { getProduct } from "../api/products";
 import { useParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import Reviews from "../components/Reviews";
 
 
 
@@ -55,7 +56,11 @@ const SoloProduct = () => {
                     src={`${import.meta.env.VITE_BACKEND_URL}${data.image}`}
                     alt="office content 1"
                 />
+
             </div>
+
+            <Reviews productId={data.id} reviews={data.reviews}/>
+            
             
         </div>
     );
